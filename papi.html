@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chicken Dinner — Rahmoo, Pulwama</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1c1410;
+    --ember:#e8a33d;
+    --ember-soft:#f0c374;
+    --chili:#c1442e;
+    --cream:#f4e9d8;
+    --cream-dim:#c9bba4;
+    --walnut:#3a2a20;
+    --walnut-light:#4a362a;
+    --line:rgba(244,233,216,0.14);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--cream);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.5;
+    overflow-x:hidden;
+    position:relative;
+  }
+  body::before{
+    content:"";
+    position:fixed;inset:0;pointer-events:none;z-index:1;
+    opacity:0.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .spotlight{
+    position:fixed;top:0;left:0;width:600px;height:600px;
+    border-radius:50%;pointer-events:none;z-index:2;
+    background:radial-gradient(circle, rgba(232,163,61,0.10), transparent 70%);
+    transform:translate(-50%,-50%);
+    transition:opacity .3s ease;
+    opacity:0;
+  }
+  .reveal{
+    opacity:0;transform:translateY(28px);
+    transition:opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1);
+  }
+  .reveal.in{opacity:1;transform:translateY(0);}
+  .reveal-stagger.in > *{opacity:1;transform:translateY(0);}
+  .reveal-stagger > *{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);}
+  .reveal-stagger.in > *:nth-child(1){transition-delay:.05s;}
+  .reveal-stagger.in > *:nth-child(2){transition-delay:.16s;}
+  .reveal-stagger.in > *:nth-child(3){transition-delay:.27s;}
+  h1,h2,h3{font-family:'Fraunces', serif;font-weight:700;}
+  .mono{font-family:'Space Mono', monospace;letter-spacing:0.03em;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(28,20,16,0.7);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid transparent;
+    transition:background .35s ease, border-color .35s ease, height .35s ease;
+  }
+  .topbar.scrolled{background:rgba(28,20,16,0.94);border-bottom-color:var(--line);}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;transition:height .35s ease;}
+  .topbar.scrolled .wrap{height:56px;}
+  .btn{will-change:transform;}
+  .brand{font-size:1.15rem;font-weight:700;letter-spacing:0.01em;}
+  .brand span{color:var(--ember);}
+  .topcta{display:flex;gap:10px;align-items:center;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 18px;border-radius:100px;
+    font-family:'Work Sans',sans-serif;font-weight:600;font-size:0.88rem;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{background:var(--ember);color:#1c1410;box-shadow:0 4px 18px rgba(232,163,61,0.28);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,163,61,0.4);}
+  .btn-ghost{border:1px solid var(--line);color:var(--cream);}
+  .btn-ghost:hover{border-color:var(--ember);color:var(--ember);}
+  .btn-icon{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:40px;height:40px;border-radius:50%;
+    border:1px solid var(--line);color:var(--cream);
+    transition:transform .18s ease, border-color .18s ease, color .18s ease;
+  }
+  .btn-icon:hover{border-color:var(--ember);color:var(--ember);transform:translateY(-2px);}
+  .btn-icon svg{width:18px;height:18px;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:100px 0 90px;
+    background:var(--ink);
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;inset:-20%;
+    background:
+      radial-gradient(ellipse 900px 500px at 80% -10%, rgba(193,68,46,0.38), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 10% 110%, rgba(232,163,61,0.2), transparent 60%);
+    animation:heroDrift 14s ease-in-out infinite alternate;
+    pointer-events:none;
+  }
+  @keyframes heroDrift{
+    0%{transform:translate(0,0) scale(1);}
+    100%{transform:translate(-2%,2%) scale(1.06);}
+  }
+  .steam{position:absolute;bottom:0;pointer-events:none;opacity:0.5;}
+  .steam path{
+    stroke:var(--ember-soft);stroke-width:2;fill:none;
+    stroke-linecap:round;
+    stroke-dasharray:240;
+    animation:steamRise 6s ease-in-out infinite;
+  }
+  .steam path:nth-child(2){animation-delay:1.4s;opacity:0.7;}
+  .steam path:nth-child(3){animation-delay:2.8s;opacity:0.45;}
+  @keyframes steamRise{
+    0%{stroke-dashoffset:240;opacity:0;transform:translateY(0);}
+    15%{opacity:0.8;}
+    80%{opacity:0.2;}
+    100%{stroke-dashoffset:0;opacity:0;transform:translateY(-40px);}
+  }
+  .hero .wrap{position:relative;z-index:2;}
+  .eyebrow{
+    display:flex;align-items:center;gap:10px;
+    font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--ember-soft);margin-bottom:22px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:#5fbf6e;box-shadow:0 0 0 4px rgba(95,191,110,0.15);}
+  .hero h1{
+    font-size:clamp(3rem, 8vw, 5.6rem);
+    line-height:0.95;
+    color:var(--cream);
+    max-width:820px;
+  }
+  .hero h1 em{font-style:italic;color:var(--ember);}
+  .hero-sub{
+    margin-top:24px;
+    max-width:520px;
+    font-size:1.08rem;
+    color:var(--cream-dim);
+  }
+  .rating-row{
+    margin-top:34px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  }
+  .stars{color:var(--ember);font-size:1.2rem;letter-spacing:2px;}
+  .rating-num{font-family:'Fraunces',serif;font-weight:700;font-size:1.4rem;}
+  .rating-count{color:var(--cream-dim);font-size:0.9rem;}
+  .hero-ctas{margin-top:40px;display:flex;gap:14px;flex-wrap:wrap;}
+  .btn-lg{padding:16px 28px;font-size:1rem;border-radius:14px;}
+
+  .badge-row{
+    margin-top:56px;display:flex;gap:28px;flex-wrap:wrap;
+    padding-top:28px;border-top:1px solid var(--line);
+  }
+  .badge{display:flex;gap:10px;align-items:center;font-size:0.85rem;color:var(--cream-dim);}
+  .badge b{color:var(--cream);font-weight:600;}
+
+  /* ---------- boteh divider (signature element) ---------- */
+  .boteh-divider{
+    height:64px;width:100%;
+    background:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  .boteh-divider svg{height:34px;width:auto;opacity:0.9;}
+  .boteh-divider path{
+    stroke-dasharray:120;stroke-dashoffset:120;
+    transition:stroke-dashoffset 1.4s cubic-bezier(.22,1,.36,1);
+  }
+  .boteh-divider.in path{stroke-dashoffset:0;}
+  .boteh-divider.in path:nth-child(2){transition-delay:.06s;}
+  .boteh-divider.in path:nth-child(3){transition-delay:.12s;}
+  .boteh-divider.in path:nth-child(4){transition-delay:.18s;}
+  .boteh-divider.in path:nth-child(5){transition-delay:.24s;}
+  .boteh-divider.in path:nth-child(6){transition-delay:.30s;}
+  .boteh-divider.in path:nth-child(7){transition-delay:.36s;}
+  .boteh-divider.in path:nth-child(8){transition-delay:.42s;}
+  .boteh-divider.in path:nth-child(9){transition-delay:.48s;}
+  .boteh-divider.in path:nth-child(10){transition-delay:.54s;}
+
+  /* ---------- section shell ---------- */
+  section{padding:80px 0;}
+  .section-head{max-width:640px;margin-bottom:48px;}
+  .section-tag{
+    font-size:0.78rem;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--chili);font-weight:600;margin-bottom:14px;
+  }
+  .section-head h2{font-size:clamp(1.9rem,4vw,2.7rem);color:var(--cream);}
+
+  /* ---------- highlights ---------- */
+  .highlights{background:var(--walnut);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;}
+  .h-card{background:var(--walnut-light);padding:32px 28px;}
+  .h-card .num{font-family:'Space Mono',monospace;color:var(--ember);font-size:0.85rem;margin-bottom:16px;display:block;}
+  .h-card h3{font-size:1.3rem;color:var(--cream);margin-bottom:10px;}
+  .h-card p{color:var(--cream-dim);font-size:0.95rem;}
+
+  /* ---------- gallery (photo-ready frames) ---------- */
+  .gallery-grid{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:16px;height:340px;}
+  .g-frame{
+    position:relative;border-radius:18px;overflow:hidden;
+    background:linear-gradient(135deg, var(--walnut-light), var(--walnut));
+    border:1px solid var(--line);
+    display:flex;align-items:flex-end;
+    transition:transform .45s cubic-bezier(.22,1,.36,1), box-shadow .45s ease;
+  }
+  .g-frame:hover{transform:translateY(-6px) rotate(-0.3deg);box-shadow:0 20px 40px rgba(0,0,0,0.35);}
+  .g-tall{grid-row:span 1;}
+  .g-shimmer{
+    position:absolute;inset:0;
+    background:linear-gradient(100deg, transparent 30%, rgba(232,163,61,0.12) 50%, transparent 70%);
+    background-size:200% 100%;
+    animation:shimmer 3.4s ease-in-out infinite;
+  }
+  @keyframes shimmer{
+    0%{background-position:160% 0;}
+    100%{background-position:-60% 0;}
+  }
+  .g-frame img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    transition:transform .6s cubic-bezier(.22,1,.36,1);
+  }
+  .g-frame:hover img{transform:scale(1.08);}
+  .g-frame::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(0deg, rgba(0,0,0,0.55) 0%, transparent 45%);
+    pointer-events:none;
+  }
+  .g-label{
+    position:relative;z-index:2;padding:16px 18px;
+    font-size:0.85rem;color:var(--cream-dim);
+    background:linear-gradient(0deg, rgba(0,0,0,0.35), transparent);
+    width:100%;
+  }
+  @media (max-width:860px){
+    .gallery-grid{grid-template-columns:1fr;height:auto;}
+    .g-frame{height:160px;}
+  }
+
+  /* ---------- reviews ---------- */
+  .reviews-scroll{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .review-card{
+    background:var(--walnut);border:1px solid var(--line);border-radius:18px;
+    padding:28px;display:flex;flex-direction:column;gap:16px;
+  }
+  .review-top{display:flex;justify-content:space-between;align-items:flex-start;}
+  .avatar{
+    width:42px;height:42px;border-radius:50%;
+    background:linear-gradient(135deg,var(--ember),var(--chili));
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;font-weight:700;color:#1c1410;font-size:1rem;
+  }
+  .reviewer-name{font-weight:600;font-size:0.95rem;}
+  .review-meta{font-size:0.78rem;color:var(--cream-dim);}
+  .review-stars{color:var(--ember);font-size:0.85rem;letter-spacing:1px;}
+  .review-text{font-size:0.95rem;color:var(--cream-dim);line-height:1.6;}
+
+  /* ---------- info / hours / location ---------- */
+  .info-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:start;}
+  .hours-list{display:flex;flex-direction:column;border-top:1px solid var(--line);}
+  .hours-row{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);font-size:0.95rem;}
+  .hours-row.today{color:var(--ember-soft);font-weight:600;}
+  .hours-row .status{color:#5fbf6e;font-family:'Space Mono',monospace;font-size:0.82rem;}
+
+  .amenity-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .amenity{
+    display:flex;align-items:center;gap:12px;
+    background:var(--walnut);border:1px solid var(--line);border-radius:12px;
+    padding:14px 16px;font-size:0.88rem;color:var(--cream-dim);
+  }
+  .amenity svg{flex-shrink:0;width:18px;height:18px;color:var(--ember);}
+
+  .contact-card{
+    background:linear-gradient(160deg, var(--walnut-light), var(--walnut));
+    border:1px solid var(--line);border-radius:20px;padding:32px;
+  }
+  .contact-card h3{font-size:1.4rem;margin-bottom:6px;}
+  .contact-card .addr{color:var(--cream-dim);font-size:0.95rem;margin-bottom:24px;}
+  .contact-line{
+    display:flex;align-items:center;gap:12px;
+    padding:14px 0;border-top:1px solid var(--line);
+    font-size:0.95rem;
+  }
+  .contact-line:last-of-type{border-bottom:1px solid var(--line);}
+  .contact-line svg{width:18px;height:18px;color:var(--ember);flex-shrink:0;}
+  .contact-card .btn{width:100%;justify-content:center;margin-top:24px;}
+
+  /* ---------- final cta ---------- */
+  .final-cta{
+    text-align:center;padding:100px 24px;
+    background:
+      radial-gradient(ellipse 700px 400px at 50% 0%, rgba(193,68,46,0.3), transparent 65%),
+      var(--ink);
+    border-top:1px solid var(--line);
+  }
+  .final-cta h2{font-size:clamp(2.2rem,5vw,3.6rem);max-width:700px;margin:0 auto 20px;}
+  .final-cta p{color:var(--cream-dim);max-width:480px;margin:0 auto 36px;}
+  .final-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+  footer{padding:36px 24px;text-align:center;color:var(--cream-dim);font-size:0.82rem;border-top:1px solid var(--line);}
+  footer .footer-social{display:flex;justify-content:center;gap:12px;margin-bottom:14px;}
+
+  @media (max-width:860px){
+    .grid-3{grid-template-columns:1fr;}
+    .reviews-scroll{grid-template-columns:1fr;}
+    .info-grid{grid-template-columns:1fr;}
+    .amenity-grid{grid-template-columns:1fr;}
+    .topcta .btn-ghost{display:none;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+  :focus-visible{outline:2px solid var(--ember);outline-offset:3px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand">Chicken <span>Dinner</span></div>
+    <div class="topcta">
+      <a class="btn btn-ghost" href="about.html">Meet the Owner</a>
+      <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&query=VR3M%2B63+Rahmoo" target="_blank" rel="noopener">Directions</a>
+      <a class="btn-icon" href="https://www.instagram.com/chicken_dinner68?igsh=Ymdsd3c5dW16ZnRz" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a class="btn btn-primary" href="tel:7006558907">Call Now</a>
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+  <svg class="steam" style="left:12%;" width="60" height="140" viewBox="0 0 60 140">
+    <path d="M10 140 C 30 110, -10 90, 10 60 C 30 30, -10 20, 10 0"/>
+    <path d="M30 140 C 50 110, 10 90, 30 60 C 50 30, 10 20, 30 0"/>
+    <path d="M50 140 C 70 110, 30 90, 50 60 C 70 30, 30 20, 50 0"/>
+  </svg>
+  <svg class="steam" style="right:14%;" width="60" height="140" viewBox="0 0 60 140">
+    <path d="M10 140 C 30 110, -10 90, 10 60 C 30 30, -10 20, 10 0"/>
+    <path d="M30 140 C 50 110, 10 90, 30 60 C 50 30, 10 20, 30 0"/>
+    <path d="M50 140 C 70 110, 30 90, 50 60 C 70 30, 30 20, 50 0"/>
+  </svg>
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span> Open now · Closes 10 PM</div>
+    <h1>Tandoor-fresh <em>chicken</em>,<br>done right, every night.</h1>
+    <p class="hero-sub">A family-run kitchen in Rahmoo, Pulwama — dine-in, drive-through, or straight to your door. No fuss, just properly cooked chicken.</p>
+
+    <div class="rating-row">
+      <span class="stars">★★★★★</span>
+      <span class="rating-num" id="ratingNum" data-target="5.0">0.0</span>
+      <span class="rating-count">from 4 reviews</span>
+    </div>
+
+    <div class="hero-ctas">
+      <a class="btn btn-primary btn-lg" href="tel:7006558907">📞 Call — 70065 58907</a>
+      <a class="btn btn-ghost btn-lg" href="https://www.google.com/maps/search/?api=1&query=VR3M%2B63+Rahmoo" target="_blank" rel="noopener">Get Directions</a>
+    </div>
+
+    <div class="badge-row">
+      <div class="badge"><b>Women-owned</b>&nbsp;business</div>
+      <div class="badge"><b>Dine-in</b>&nbsp;· <b>Drive-through</b>&nbsp;· <b>No-contact delivery</b></div>
+      <div class="badge"><b>Free</b>&nbsp;parking on-site</div>
+    </div>
+  </div>
+</section>
+
+<div class="boteh-divider reveal-target">
+  <svg viewBox="0 0 800 40" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#e8a33d" stroke-width="1.4">
+    <g opacity="0.85">
+      <path d="M20 30 C20 10, 45 5, 45 20 C45 32, 30 34, 20 30 Z"/>
+      <path d="M100 30 C100 10, 125 5, 125 20 C125 32, 110 34, 100 30 Z"/>
+      <path d="M180 30 C180 10, 205 5, 205 20 C205 32, 190 34, 180 30 Z"/>
+      <path d="M260 30 C260 10, 285 5, 285 20 C285 32, 270 34, 260 30 Z"/>
+      <path d="M340 30 C340 10, 365 5, 365 20 C365 32, 350 34, 340 30 Z"/>
+      <path d="M420 30 C420 10, 445 5, 445 20 C445 32, 430 34, 420 30 Z"/>
+      <path d="M500 30 C500 10, 525 5, 525 20 C525 32, 510 34, 500 30 Z"/>
+      <path d="M580 30 C580 10, 605 5, 605 20 C605 32, 590 34, 580 30 Z"/>
+      <path d="M660 30 C660 10, 685 5, 685 20 C685 32, 670 34, 660 30 Z"/>
+      <path d="M740 30 C740 10, 765 5, 765 20 C765 32, 750 34, 740 30 Z"/>
+    </g>
+  </svg>
+</div>
+
+<section class="highlights">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag">Why people come back</div>
+      <h2>Three things regulars mention every time</h2>
+    </div>
+    <div class="grid-3 reveal-stagger">
+      <div class="h-card">
+        <span class="num">01</span>
+        <h3>Cooked to order</h3>
+        <p>No sitting under a heat lamp. Every dinner comes out fresh, full of flavour, and properly seasoned.</p>
+      </div>
+      <div class="h-card">
+        <span class="num">02</span>
+        <h3>Fast, friendly service</h3>
+        <p>Quick turnaround whether you're eating in, driving through, or waiting on a delivery.</p>
+      </div>
+      <div class="h-card">
+        <span class="num">03</span>
+        <h3>Easy to reach</h3>
+        <p>Free parking lot, free street parking, wheelchair-accessible car park, and Wi-Fi if you're settling in.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery" style="padding-bottom:20px;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag">The vibe</div>
+      <h2>Straight from the kitchen</h2>
+    </div>
+    <div class="gallery-grid reveal-stagger">
+      <div class="g-frame g-tall"><img src="https://images.pexels.com/photos/9562303/pexels-photo-9562303.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Tandoor fire being lit" loading="lazy"><span class="g-label">Tandoor in action</span></div>
+      <div class="g-frame"><img src="https://images.pexels.com/photos/2418486/pexels-photo-2418486.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Grilled chicken plate" loading="lazy"><span class="g-label">Tonight's special</span></div>
+      <div class="g-frame"><img src="https://images.pexels.com/photos/5409010/pexels-photo-5409010.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Fresh momos plate" loading="lazy"><span class="g-label">Fresh off the pan</span></div>
+    </div>
+    <p style="margin-top:14px;font-size:0.78rem;color:var(--cream-dim);">Photos: free-to-use images via Pexels, for illustration.</p>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag">5.0 average</div>
+      <h2>What the neighbourhood is saying</h2>
+    </div>
+    <div class="reviews-scroll reveal-stagger">
+      <div class="review-card">
+        <div class="review-top">
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div class="avatar">SG</div>
+            <div>
+              <div class="reviewer-name">Sunaina Gulzar</div>
+              <div class="review-meta">1 review · 4 months ago</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">The chicken dinner was absolutely delicious — perfectly cooked and full of flavour. Every bite was satisfying, and the presentation was lovely too.</p>
+      </div>
+      <div class="review-card">
+        <div class="review-top">
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div class="avatar">LM</div>
+            <div>
+              <div class="reviewer-name">Lone Mysar</div>
+              <div class="review-meta">1 review · 4 months ago</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">A great place to eat in Pulwama. The food is delicious, service is good, and the atmosphere is very nice.</p>
+      </div>
+      <div class="review-card">
+        <div class="review-top">
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div class="avatar">YM</div>
+            <div>
+              <div class="reviewer-name">Yaamin Manzoor</div>
+              <div class="review-meta">1 review · 4 months ago</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">🙂 Came in for dinner — solid meal, no complaints, would come back.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="visit" style="background:var(--walnut);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="wrap info-grid reveal">
+    <div>
+      <div class="section-head" style="margin-bottom:32px;">
+        <div class="section-tag">Hours</div>
+        <h2 style="font-size:2rem;">Open today until 10 PM</h2>
+      </div>
+      <div class="hours-list">
+        <div class="hours-row today"><span>Today</span><span class="status">Open · closes 10 PM</span></div>
+        <div class="hours-row"><span>Every day</span><span>Dine-in · Drive-through · Delivery</span></div>
+      </div>
+
+      <div class="section-head" style="margin-top:48px;margin-bottom:24px;">
+        <div class="section-tag">On site</div>
+        <h2 style="font-size:1.6rem;">Amenities</h2>
+      </div>
+      <div class="amenity-grid">
+        <div class="amenity">🅿️ Free parking lot</div>
+        <div class="amenity">🛜 Free Wi-Fi</div>
+        <div class="amenity">🚻 Restroom</div>
+        <div class="amenity">♿ Accessible car park</div>
+        <div class="amenity">👨‍👩‍👧 Family friendly</div>
+        <div class="amenity">📅 Accepts reservations</div>
+      </div>
+    </div>
+
+    <div class="contact-card">
+      <h3>Chicken Dinner</h3>
+      <p class="addr">Rahmoo, Jammu and Kashmir 192301<br>VR3M+63 Rahmoo</p>
+
+      <div class="contact-line">📞 <span>70065 58907</span></div>
+      <div class="contact-line">📍 <span>VR3M+63, Rahmoo</span></div>
+      <div class="contact-line">🕙 <span>Closes 10 PM today</span></div>
+      <div class="contact-line">📸 <a href="https://www.instagram.com/chicken_dinner68?igsh=Ymdsd3c5dW16ZnRz" target="_blank" rel="noopener"><span>@chicken_dinner68</span></a></div>
+
+      <a class="btn btn-primary" href="tel:7006558907">📞 Call Now</a>
+      <a class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:12px;" href="https://www.google.com/maps/search/?api=1&query=VR3M%2B63+Rahmoo" target="_blank" rel="noopener">📍 Get Directions</a>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta reveal">
+  <h2>Hungry? The tandoor's already on.</h2>
+  <p>Dine-in, drive through, or have it delivered — no contact needed.</p>
+  <div class="final-ctas">
+    <a class="btn btn-primary btn-lg" href="tel:7006558907">📞 Call — 70065 58907</a>
+    <a class="btn btn-ghost btn-lg" href="https://www.google.com/maps/search/?api=1&query=VR3M%2B63+Rahmoo" target="_blank" rel="noopener">📍 Directions</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-social">
+    <a class="btn-icon" href="https://www.instagram.com/chicken_dinner68?igsh=Ymdsd3c5dW16ZnRz" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" stroke="none"/></svg>
+    </a>
+  </div>
+  Chicken Dinner · Rahmoo, Jammu and Kashmir 192301 · Women-owned business
+</footer>
+
+<div class="spotlight" id="spotlight"></div>
+
+<script>
+(function(){
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Topbar scroll state
+  var topbar = document.querySelector('.topbar');
+  window.addEventListener('scroll', function(){
+    topbar.classList.toggle('scrolled', window.scrollY > 12);
+  }, {passive:true});
+
+  // Cursor spotlight (desktop only, skip on touch)
+  var spot = document.getElementById('spotlight');
+  var isTouch = window.matchMedia('(pointer: coarse)').matches;
+  if(!isTouch && !reduceMotion){
+    window.addEventListener('pointermove', function(e){
+      spot.style.opacity = '1';
+      spot.style.transform = 'translate(' + (e.clientX - 300) + 'px,' + (e.clientY - 300) + 'px)';
+    });
+    window.addEventListener('pointerleave', function(){ spot.style.opacity = '0'; });
+  }
+
+  // Scroll reveal via IntersectionObserver
+  var targets = document.querySelectorAll('.reveal, .reveal-stagger, .reveal-target');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.15, rootMargin:'0px 0px -60px 0px'});
+    targets.forEach(function(t){ io.observe(t); });
+  } else {
+    targets.forEach(function(t){ t.classList.add('in'); });
+  }
+
+  // Rating count-up
+  var ratingEl = document.getElementById('ratingNum');
+  if(ratingEl){
+    var target = parseFloat(ratingEl.getAttribute('data-target'));
+    var started = false;
+    var ratingIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting && !started){
+          started = true;
+          var current = 0;
+          var step = target / 30;
+          var t = setInterval(function(){
+            current += step;
+            if(current >= target){ current = target; clearInterval(t); }
+            ratingEl.textContent = current.toFixed(1);
+          }, 30);
+          ratingIO.disconnect();
+        }
+      });
+    }, {threshold:0.5});
+    ratingIO.observe(ratingEl);
+  }
+
+  // Magnetic buttons (desktop only)
+  if(!isTouch && !reduceMotion){
+    document.querySelectorAll('.btn').forEach(function(btn){
+      btn.addEventListener('pointermove', function(e){
+        var r = btn.getBoundingClientRect();
+        var x = e.clientX - r.left - r.width/2;
+        var y = e.clientY - r.top - r.height/2;
+        btn.style.transform = 'translate(' + (x*0.18) + 'px,' + (y*0.35) + 'px)';
+      });
+      btn.addEventListener('pointerleave', function(){
+        btn.style.transform = 'translate(0,0)';
+      });
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
